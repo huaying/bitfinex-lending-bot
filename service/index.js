@@ -27,7 +27,7 @@ async function getRate() {
   }
   const rate =
     idx === offers.length ? offers[idx - 1][0] : offers[idx][0] - RATE_OFFSET;
-  // console.log(total, idx, rate);
+
   return rate;
 }
 
@@ -51,32 +51,26 @@ async function getFundingOffers(balance, lending, rate) {
   const lendingAmount = lending.reduce((total, c) => total + c.amount, 0);
   let remain = balance - lendingAmount;
 
-  let offers = [];
+  const amounts = [];
   while (remain > NUM_ALL_IN) {
-    offers.push(
-      new FundingOffer({
-        type: "LIMIT",
-        symbol: "fUSD",
-        rate,
-        amount: SPLIT_UNIT,
-        period: 2
-      })
-    );
+    amounts.push(SPLIT_UNIT);
     remain -= SPLIT_UNIT;
   }
 
   if (remain <= NUM_ALL_IN && remain >= MIN_TO_LEND) {
-    offers.push(
+    amounts.push(remain);
+  }
+
+  return amounts.map(
+    amount =>
       new FundingOffer({
         type: "LIMIT",
         symbol: "fUSD",
         rate,
-        amount: remain,
+        amount,
         period: 2
       })
-    );
-  }
-  return offers;
+  );
 }
 
 async function main() {
