@@ -80,6 +80,8 @@ async function getFundingOffers(balance, lending, rate) {
 }
 
 async function main() {
+  await rest.cancelAllFundingOffers();
+
   const balance = await getBalance();
 
   // get current active lending
