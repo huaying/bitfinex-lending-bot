@@ -22,7 +22,12 @@ async function getBalance() {
 
 async function getCurrentLending() {
   // get current active lending
-  return client.fundingCredits();
+  return client.fundingCredits().map(c => ({
+    amount: c.amount,
+    rate: c.rate,
+    period: c.period,
+    time: c.mtsOpening
+  }));
 }
 
 async function cancelAllFundingOffers() {

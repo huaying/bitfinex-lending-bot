@@ -52,24 +52,30 @@ async function getFundingOffers(balance, lending, rate) {
   }));
 }
 
+function toTaipeiTime(arg) {
+  return new Date(arg).toLocaleString("en-us", { timeZone: "Asia/Taipei" });
+}
+
 function printStatus(balance, lending, offers) {
   console.log("=========================================================");
-  const time = new Date().toLocaleString("en-us", { timeZone: "Asia/Taipei" });
+  const time = toTaipeiTime();
   console.log(`Time: ${time}`);
   console.log(`Balance: $${balance}`);
   console.log("Status:");
   const items = lending.map(l => ({
-    amount: l.amount,
+    amount: Number(l.amount.toFixed(2)),
     period: l.period,
-    rate: l.rate,
+    rate: Number((l.rate * 365).toFixed(4)),
+    exp: toTaipeiTime(l.time + l.period * 86400000),
     executed: true
   }));
 
   offers.forEach(o => {
     items.push({
-      amount: o.amount,
+      amount: Number(o.amount.toFixed(2)),
       period: 2,
-      rate: o.rate,
+      rate: Number((o.rate * 365).toFixed(4)),
+      exp: null,
       executed: false
     });
   });
