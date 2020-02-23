@@ -10,10 +10,11 @@
     "auto-submit": "node submit-funding-offer.js"
   },
   "dependencies": {
-    "firebase-admin": "^8.6.0",
-    "firebase-functions": "^3.3.0",
     "bfx-api-node-rest": "^3.0.1",
-    "dotenv": "^8.2.0"
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "firebase-admin": "^8.6.0",
+    "firebase-functions": "^3.3.0"
   },
   "devDependencies": {
     "firebase-functions-test": "^0.1.6"
