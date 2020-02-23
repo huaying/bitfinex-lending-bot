@@ -52,6 +52,32 @@ async function getFundingOffers(balance, lending, rate) {
   }));
 }
 
+function printStatus(balance, lending, offers) {
+  console.log("=========================================================");
+  const time = new Date().toLocaleString("en-us", { timeZone: "Asia/Taipei" });
+  console.log(`Time: ${time}`);
+  console.log(`Balance: $${balance}`);
+  console.log("Status:");
+  const items = lending.map(l => ({
+    amount: l.amount,
+    period: l.period,
+    rate: l.rate,
+    executed: true
+  }));
+
+  offers.forEach(o => {
+    items.push({
+      amount: o.amount,
+      period: 2,
+      rate: o.rate,
+      executed: false
+    });
+  });
+  if (lending.length) {
+    console.table(items);
+  }
+}
+
 async function main() {
   await cancelAllFundingOffers();
 
@@ -62,6 +88,8 @@ async function main() {
 
   // submit funding offer
   offers.forEach(offer => submitFundingOffer(offer));
+
+  printStatus(balance, lending, offers);
 }
 
 main();
