@@ -3,7 +3,8 @@ function compoundInterest (rate) {
 }
 
 function toTaipeiTime (arg) {
-  return new Date(arg).toLocaleString("en-us", { timeZone: "Asia/Taipei" });
+  const time = (arg) ? new Date(arg) : new Date();
+  return time.toLocaleString("en-us", { timeZone: "Asia/Taipei" });
 }
 
 function readableLend (lend) {
