@@ -1,0 +1,11 @@
+version: "3"
+services:
+  app:
+    build: .
+    command: yarn server:dev
+    volumes:
+      - .:/app
+    ports:
+      - "3001:3001"
+    env_file:
+      - .env
