@@ -2,6 +2,10 @@ import React from "react";
 import { useStyletron } from "baseui";
 import { Table } from "baseui/table";
 import { Heading, HeadingLevel } from "baseui/heading";
+import moment from "moment";
+import "moment/locale/zh-tw";
+
+moment.locale("zh-tw");
 
 const API_URL = process.env.REACT_APP_API_URL || "http://localhost:3001";
 
@@ -25,7 +29,7 @@ function Balance({ balance, lending }) {
         </span>
         &nbsp;
         <span className={css({ color: theme.colors.primary700 })}>
-          ${balance.toFixed(2)}
+          ${balance.toFixed(4)}
         </span>
       </div>
       <div className={css({ height: "30px", fontSize: "20px" })}>
@@ -36,7 +40,7 @@ function Balance({ balance, lending }) {
         </span>
         &nbsp;
         <span className={css({ color: theme.colors.primary700 })}>
-          ${remain.toFixed(2)}
+          ${remain.toFixed(4)}
         </span>
       </div>
     </HeadingLevel>
@@ -52,7 +56,12 @@ function Lending({ lending }) {
       <Heading styleLevel={5}>已借出</Heading>
       <Table
         columns={["金額", "天數", "年化率", "期限"]}
-        data={lending.map(l => [`$${l.amount}`, l.period, l.rate, l.exp])}
+        data={lending.map(l => [
+          `$${l.amount.toFixed(2)}`,
+          l.period,
+          `${(l.rate * 100).toFixed(2)}%`,
+          moment(l.exp).fromNow()
+        ])}
       />
     </HeadingLevel>
   );
