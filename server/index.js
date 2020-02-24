@@ -1,9 +1,12 @@
 const express = require("express");
+const cors = require('cors')
 const bitfinext = require("./bitfinex");
 const { readableLend } = require('./utils');
 
 const app = express();
 const port = 3001;
+
+app.use(cors())
 
 app.get("/api/data", async (req, res) => {
   const balance = await bitfinext.getBalance();

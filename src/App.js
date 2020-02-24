@@ -7,6 +7,15 @@ const engine = new Styletron();
 
 function App() {
   const [css] = useStyletron();
+
+  React.useEffect(() => {
+    async function fetchData() {
+      const res = await fetch('http://localhost:3001/api/data').then(res => res.json());
+      console.log(res)
+    }
+    fetchData();
+  }, []);
+
   return (
     <StyletronProvider value={engine}>
       <BaseProvider theme={LightTheme}>
