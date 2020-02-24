@@ -5,6 +5,7 @@ import { LightTheme, BaseProvider, useStyletron } from "baseui";
 import { Table } from "baseui/table";
 
 const engine = new Styletron();
+const API_URL = process.env.REACT_APP_API_URL || "http://localhost:3001";
 
 function Lending({ lending }) {
   if (lending.length === 0) {
@@ -25,10 +26,7 @@ function App() {
 
   React.useEffect(() => {
     async function fetchData() {
-      const res = await fetch("http://localhost:3001/api/data").then(res =>
-        res.json()
-      );
-      console.log(res);
+      const res = await fetch(`${API_URL}/api/data`).then(res => res.json());
       setLending(res.lending);
       setBalance(res.balance);
     }
