@@ -1,21 +1,60 @@
 import React from "react";
-import { Client as Styletron } from "styletron-engine-atomic";
-import { Provider as StyletronProvider } from "styletron-react";
-import { LightTheme, BaseProvider, useStyletron } from "baseui";
+import { useStyletron } from "baseui";
 import { Table } from "baseui/table";
+import { Heading, HeadingLevel } from "baseui/heading";
 
-const engine = new Styletron();
 const API_URL = process.env.REACT_APP_API_URL || "http://localhost:3001";
+
+function Balance({ balance, lending }) {
+  const [css, theme] = useStyletron();
+
+  if (balance === null || lending.length === 0) {
+    return null;
+  }
+  const lendingAmount = lending.reduce((total, c) => total + c.amount, 0);
+  let remain = balance - lendingAmount;
+
+  return (
+    <HeadingLevel>
+      <Heading styleLevel={5}>資金總覽</Heading>
+      <div className={css({ height: "30px", fontSize: "20px" })}>
+        <span
+          className={css({ fontWeight: 400, color: theme.colors.primary500 })}
+        >
+          總共
+        </span>
+        &nbsp;
+        <span className={css({ color: theme.colors.primary700 })}>
+          ${balance.toFixed(2)}
+        </span>
+      </div>
+      <div className={css({ height: "30px", fontSize: "20px" })}>
+        <span
+          className={css({ fontWeight: 400, color: theme.colors.primary500 })}
+        >
+          可用
+        </span>
+        &nbsp;
+        <span className={css({ color: theme.colors.primary700 })}>
+          ${remain.toFixed(2)}
+        </span>
+      </div>
+    </HeadingLevel>
+  );
+}
 
 function Lending({ lending }) {
   if (lending.length === 0) {
     return null;
   }
   return (
-    <Table
-      columns={["Amount", "Period", "Rate", "Expiration"]}
-      data={lending.map(l => [l.amount, l.period, l.rate, l.exp])}
-    />
+    <HeadingLevel>
+      <Heading styleLevel={5}>已借出</Heading>
+      <Table
+        columns={["金額", "天數", "年化率", "期限"]}
+        data={lending.map(l => [`$${l.amount}`, l.period, l.rate, l.exp])}
+      />
+    </HeadingLevel>
   );
 }
 
@@ -34,21 +73,22 @@ function App() {
   }, []);
 
   return (
-    <StyletronProvider value={engine}>
-      <BaseProvider theme={LightTheme}>
-        <div
-          className={css({
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            height: "100%"
-          })}
-        >
-          {balance}
-          <Lending lending={lending} />
-        </div>
-      </BaseProvider>
-    </StyletronProvider>
+    <div
+      className={css({
+        margin: "0 auto",
+        padding: "20px",
+        maxWidth: "920px"
+      })}
+    >
+      <Balance balance={balance} lending={lending} />
+      <div
+        className={css({
+          marginTop: "20px"
+        })}
+      >
+        <Lending lending={lending} />
+      </div>
+    </div>
   );
 }
 

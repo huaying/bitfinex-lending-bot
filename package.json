@@ -23,7 +23,7 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "server": "node server/index",
-    "server:dev": "nodemon server/index",
+    "server:dev": "nodemon --watch server server/index",
     "auto-submit": "node server/submit-funding-offer"
   },
   "eslintConfig": {
