@@ -6,6 +6,7 @@ const {
   submitFundingOffer,
   getFundingBook
 } = bitfinext;
+const { readableLend, toTaipeiTime } = './utils';
 
 async function getRate() {
   const EXPECTED_AMOUNT = 50000;
@@ -52,10 +53,6 @@ async function getFundingOffers(balance, lending, rate) {
   }));
 }
 
-function toTaipeiTime(arg) {
-  return new Date(arg).toLocaleString("en-us", { timeZone: "Asia/Taipei" });
-}
-
 function printStatus(balance, lending, offers) {
   console.log("=========================================================");
   const time = toTaipeiTime();
@@ -63,10 +60,7 @@ function printStatus(balance, lending, offers) {
   console.log(`Balance: $${balance}`);
   console.log("Status:");
   const items = lending.map(l => ({
-    amount: Number(l.amount.toFixed(2)),
-    period: l.period,
-    rate: Number((l.rate * 365).toFixed(4)),
-    exp: toTaipeiTime(l.time + l.period * 86400000),
+    ...readableLend(l),
     executed: true
   }));
 
