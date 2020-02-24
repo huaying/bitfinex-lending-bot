@@ -6,7 +6,7 @@ const {
   submitFundingOffer,
   getFundingBook
 } = bitfinext;
-const { readableLend, toTaipeiTime } = './utils';
+const { readableLend, toTaipeiTime } = require('./utils');
 
 async function getRate() {
   const EXPECTED_AMOUNT = 50000;
