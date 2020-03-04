@@ -25,7 +25,8 @@
     "eject": "react-scripts eject",
     "server": "node server/index",
     "server:dev": "nodemon --watch server server/index",
-    "auto-submit": "node server/submit-funding-offer"
+    "auto-submit": "node server/submit-funding-offer",
+    "fetch-earning": "node server/fetch-funding-earning"
   },
   "eslintConfig": {
     "extends": "react-app"

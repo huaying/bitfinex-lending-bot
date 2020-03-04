@@ -54,11 +54,19 @@ async function getFundingBook() {
   };
 }
 
+async function getFundingEarning() {
+  const ONE_DAY_IN_MS = 86400000;
+  const now = Date.now();
+  const res = await client.ledgers(null, now - ONE_DAY_IN_MS, now, 500);
+  console.log(res.length)
+}
+
 module.exports = {
   client,
   getBalance,
   getCurrentLending,
   cancelAllFundingOffers,
   submitFundingOffer,
-  getFundingBook
+  getFundingBook,
+  getFundingEarning
 };
