@@ -57,8 +57,8 @@ async function getFundingBook() {
 async function getFundingEarning() {
   const ONE_DAY_IN_MS = 86400000;
   const now = Date.now();
-  const res = await client.ledgers(null, now - ONE_DAY_IN_MS, now, 500);
-  console.log(res.length)
+  const res = await client.ledgers({ ccy: 'USD', category: 28 }, now - ONE_DAY_IN_MS * 30, now, 500);
+  console.log(res.map(r => r.amount))
 }
 
 module.exports = {
