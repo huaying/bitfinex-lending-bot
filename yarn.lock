@@ -2655,21 +2655,7 @@ bfx-api-node-models@^1.1.9:
     crc-32 "^1.2.0"
     debug "^4.1.1"
 
-bfx-api-node-rest@^3.0.0:
-  version "3.0.4"
-  resolved "https://registry.yarnpkg.com/bfx-api-node-rest/-/bfx-api-node-rest-3.0.4.tgz#7e99edfecdf9f4f5b4a5e9ee3c1b76a6dc1e4427"
-  integrity sha512-j9+7TivPzBNY6D1tTKsU+ee78GMS1EegHLz1gAMN9H77UzN3C8IzxHpn5eAonhrm0krm+DnL8VJPm1Tk4tUnew==
-  dependencies:
-    bfx-api-node-models "^1.1.9"
-    bfx-api-node-util "^1.0.4"
-    bluebird "^3.5.5"
-    copy "^0.3.2"
-    debug "^4.1.1"
-    lodash "^4.17.15"
-    request "^2.67.0"
-    request-promise "^4.2.0"
-
-"bfx-api-node-rest@https://github.com/bitfinexcom/bfx-api-node-rest#f7c2d31":
+bfx-api-node-rest@^3.0.0, "bfx-api-node-rest@https://github.com/bitfinexcom/bfx-api-node-rest#f7c2d31":
   version "3.0.4"
   resolved "https://github.com/bitfinexcom/bfx-api-node-rest#f7c2d310496e1fe35935cc841b55aea32aa06d36"
   dependencies:
@@ -5502,7 +5488,7 @@ got@^6.7.1:
     unzip-response "^2.0.1"
     url-parse-lax "^1.0.0"
 
-graceful-fs@^4.1.11, graceful-fs@^4.1.15, graceful-fs@^4.1.2, graceful-fs@^4.1.4, graceful-fs@^4.1.6, graceful-fs@^4.2.0, graceful-fs@^4.2.2:
+graceful-fs@^4.1.11, graceful-fs@^4.1.15, graceful-fs@^4.1.2, graceful-fs@^4.1.3, graceful-fs@^4.1.4, graceful-fs@^4.1.6, graceful-fs@^4.2.0, graceful-fs@^4.2.2:
   version "4.2.3"
   resolved "https://registry.yarnpkg.com/graceful-fs/-/graceful-fs-4.2.3.tgz#4a12ff1b60376ef09862c2093edd908328be8423"
   integrity sha512-a30VEBm4PEdx1dRB7MFK7BejejvCvBronbLjht+sHuGYj8PHs7M/5Z+rt5lw551vZ7yfTCj4Vuyy3mSJytDWRQ==
@@ -7273,7 +7259,7 @@ lodash.uniq@^4.5.0:
   resolved "https://registry.yarnpkg.com/lodash.uniq/-/lodash.uniq-4.5.0.tgz#d0225373aeb652adc1bc82e4945339a842754773"
   integrity sha1-0CJTc662Uq3BvILklFM5qEJ1R3M=
 
-"lodash@>=3.5 <5", lodash@^4.17.11, lodash@^4.17.13, lodash@^4.17.14, lodash@^4.17.15, lodash@^4.17.4, lodash@^4.17.5:
+lodash@4, "lodash@>=3.5 <5", lodash@^4.17.11, lodash@^4.17.13, lodash@^4.17.14, lodash@^4.17.15, lodash@^4.17.4, lodash@^4.17.5:
   version "4.17.15"
   resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.15.tgz#b447f6670a0455bbfeedd11392eff330ea097548"
   integrity sha512-8xOcRHvCjnocdS5cpwXQXVzmmh5e5+saE2QGoeQmbKmRS6J3VQppPOIt0MnmE+4xlZoumy0GPG0D0MVIQbNA1A==
@@ -7302,6 +7288,17 @@ lossless-json@^1.0.3:
   version "1.0.3"
   resolved "https://registry.yarnpkg.com/lossless-json/-/lossless-json-1.0.3.tgz#f9ce7daeb79e4a0f38a3c0340177654b434bc2a2"
   integrity sha512-r4w0WrhIHV1lOTVGbTg4Toqwso5x6C8pM7Q/Nto2vy4c7yUSdTYVYlj16uHVX3MT1StpSELDv8yrqGx41MBsDA==
+
+lowdb@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/lowdb/-/lowdb-1.0.0.tgz#5243be6b22786ccce30e50c9a33eac36b20c8064"
+  integrity sha512-2+x8esE/Wb9SQ1F9IHaYWfsC9FIecLOPrK4g17FGEayjUWH172H6nwicRovGvSE2CPZouc2MCIqCI7h9d+GftQ==
+  dependencies:
+    graceful-fs "^4.1.3"
+    is-promise "^2.1.0"
+    lodash "4"
+    pify "^3.0.0"
+    steno "^0.4.1"
 
 lower-case@^1.1.1:
   version "1.1.4"
@@ -10654,6 +10651,13 @@ stealthy-require@^1.1.1:
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/stealthy-require/-/stealthy-require-1.1.1.tgz#35b09875b4ff49f26a777e509b3090a3226bf24b"
   integrity sha1-NbCYdbT/SfJqd35QmzCQoyJr8ks=
+
+steno@^0.4.1:
+  version "0.4.4"
+  resolved "https://registry.yarnpkg.com/steno/-/steno-0.4.4.tgz#071105bdfc286e6615c0403c27e9d7b5dcb855cb"
+  integrity sha1-BxEFvfwobmYVwEA8J+nXtdy4Vcs=
+  dependencies:
+    graceful-fs "^4.1.3"
 
 stream-browserify@^2.0.1:
   version "2.0.2"
