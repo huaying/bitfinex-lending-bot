@@ -50,7 +50,7 @@ function Balance({ balance, lending, earnings }) {
         <span
           className={css({ fontWeight: 400, color: theme.colors.primary500 })}
         >
-          30 天收益
+          30天收益
         </span>
         &nbsp;
         <span className={css({ color: theme.colors.primary700 })}>
@@ -93,10 +93,11 @@ function Earning({ earnings }) {
       className={css({ margin: "0 -20px" })}
     >
       <Table
-        columns={["收益", "時間"]}
+        columns={["收益", "日期", "時間"]}
         data={earnings.map(l => [
           `$${l.amount.toFixed(4)}`,
-          moment(l.mts).fromNow()
+          moment(l.mts).format('L'),
+          moment(l.mts).fromNow(),
         ])}
       />
     </div>
@@ -140,10 +141,10 @@ function App() {
           }}
           activeKey={activeKey}
         >
+          <Tab title="每日收益"><Earning earnings={earnings} /></Tab>
           <Tab title="已借出">
             <Lending lending={lending} />
           </Tab>
-          <Tab title="每日收益"><Earning earnings={earnings} /></Tab>
         </Tabs>
       </div>
     </div>
