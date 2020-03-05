@@ -2,6 +2,7 @@ import React from "react";
 import { useStyletron } from "baseui";
 import { Table } from "baseui/table";
 import { Heading, HeadingLevel } from "baseui/heading";
+import { Spinner } from "baseui/spinner";
 import { Tabs, Tab } from "baseui/tabs";
 import moment from "moment";
 import "moment/locale/zh-tw";
@@ -120,6 +121,18 @@ function App() {
     }
     fetchData();
   }, []);
+
+  if (balance === null) {
+    return (
+      <div className={css({
+        width: '100%',
+        marginTop: '100px',
+        textAlign: 'center'
+      })}>
+        <Spinner color="black" />
+      </div>
+    );
+  }
 
   return (
     <div
