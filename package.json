@@ -7,7 +7,7 @@
     "@testing-library/react": "^9.3.2",
     "@testing-library/user-event": "^7.1.2",
     "baseui": "^9.56.0",
-    "bfx-api-node-rest": "https://github.com/bitfinexcom/bfx-api-node-rest#f7c2d31",
+    "bfx-api-node-rest": "bitfinexcom/bfx-api-node-rest#f7c2d31",
     "bitfinex-api-node": "^4.0.10",
     "cors": "^2.8.5",
     "dotenv": "^8.2.0",

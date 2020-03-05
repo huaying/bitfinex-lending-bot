@@ -1,7 +1,9 @@
 const express = require("express");
 const cors = require("cors");
+
 const bitfinext = require("./bitfinex");
 const { compoundInterest } = require("./utils");
+const db = require('./db');
 
 const app = express();
 const port = 3001;
@@ -16,7 +18,14 @@ app.get("/api/data", async (req, res) => {
     rate: compoundInterest(l.rate).toFixed(4),
     exp: l.time + l.period * 86400000
   }));
-  return res.status(200).json({ balance, lending });
+
+  // take only recently 30 days
+  let earngins = [];
+  if (db.has('earnings').value()) {
+    earngins = db.get('earnings').takeRight(30).value();
+  }  
+
+  return res.status(200).json({ balance, lending, earngins });
 });
 
 app.listen(port, () =>
