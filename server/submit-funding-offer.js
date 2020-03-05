@@ -78,7 +78,7 @@ function printStatus(balance, lending, offers) {
   }
 }
 
-async function main() {
+async function main(showDetail = false) {
   await cancelAllFundingOffers();
 
   const balance = await getBalance();
@@ -89,7 +89,13 @@ async function main() {
   // submit funding offer
   offers.forEach(offer => submitFundingOffer(offer));
 
-  printStatus(balance, lending, offers);
+  if (showDetail) {
+    printStatus(balance, lending, offers);
+  }
 }
 
-main();
+module.exports = main;
+
+if (require.main === module) {
+  main(true);
+}

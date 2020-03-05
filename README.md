@@ -15,10 +15,8 @@ API_SECRET=xxx
 ## Run the script to submit offer automatically
 `yarn auto-submit`
 
-You can schedule the task with cron
-
-`*/10 * * * * /usr/bin/yarn --cwd bitfinex-lending-bot auto-submit >> /tmp/bitfinext-auto-submit.log`
-
+## Run the script to sync your recent earning history to db
+`yarn sync-earning`
 
 ## Run the web app
 ### Run it locally:

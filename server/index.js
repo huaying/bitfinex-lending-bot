@@ -3,6 +3,7 @@ const cors = require("cors");
 
 const bitfinext = require("./bitfinex");
 const { compoundInterest } = require("./utils");
+const scheduler = require('./scheduler');
 const db = require('./db');
 
 const app = express();
@@ -28,6 +29,8 @@ app.get("/api/data", async (req, res) => {
   return res.status(200).json({ balance, lending, earnings });
 });
 
-app.listen(port, () =>
+app.listen(port, () => {
   console.log(`bitfinex lending bot api on port ${port}!`)
+  scheduler();
+}
 );
