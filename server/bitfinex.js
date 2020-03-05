@@ -58,7 +58,13 @@ async function getFundingEarning() {
   const ONE_DAY_IN_MS = 86400000;
   const now = Date.now();
   const res = await client.ledgers({ ccy: 'USD', category: 28 }, now - ONE_DAY_IN_MS * 30, now, 500);
-  console.log(res.map(r => r.amount))
+  const earnings = res.map(r => ({
+    id: r.id,
+    amount: r.amount,
+    balance: r.balance,
+    mts: r.mts
+  })).reverse();
+  return earnings;
 }
 
 module.exports = {
