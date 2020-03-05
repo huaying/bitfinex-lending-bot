@@ -20,12 +20,12 @@ app.get("/api/data", async (req, res) => {
   }));
 
   // take only recently 30 days
-  let earngins = [];
+  let earnings = [];
   if (db.has('earnings').value()) {
-    earngins = db.get('earnings').takeRight(30).value();
-  }  
+    earnings = db.get('earnings').takeRight(30).value().reverse();
+  }
 
-  return res.status(200).json({ balance, lending, earngins });
+  return res.status(200).json({ balance, lending, earnings });
 });
 
 app.listen(port, () =>
