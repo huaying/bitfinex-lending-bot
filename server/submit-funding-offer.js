@@ -6,7 +6,7 @@ const {
   submitFundingOffer,
   getFundingBook
 } = bitfinext;
-const { readableLend, toTaipeiTime } = require('./utils');
+const { readableLend, toTime } = require('./utils');
 
 async function getRate() {
   const EXPECTED_AMOUNT = 50000;
@@ -55,7 +55,7 @@ async function getFundingOffers(balance, lending, rate) {
 
 function printStatus(balance, lending, offers) {
   console.log("=========================================================");
-  const time = toTaipeiTime();
+  const time = toTime();
   console.log(`Time: ${time}`);
   console.log(`Balance: $${balance}`);
   console.log("Status:");

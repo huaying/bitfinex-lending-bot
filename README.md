@@ -4,10 +4,12 @@
 yarn, docker, docker-compose
 
 ## Installation
-- Create a new file `.env` under the current directory and put your key and secret here.
+- Create a new file `.env` under the current directory and put your key, secret and timezone here.
 ```
 API_KEY=xxx
 API_SECRET=xxx
+
+TZ=Asia/Taipei
 ```
 
 - Run `yarn` to install required packages
