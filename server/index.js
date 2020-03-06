@@ -22,6 +22,7 @@ app.get("/api/data", async (req, res) => {
 
   // take only recently 30 days
   let earnings = [];
+  await db.read();
   if (db.has('earnings').value()) {
     earnings = db.get('earnings').takeRight(30).value().reverse();
   }
