@@ -28,6 +28,7 @@
     "eject": "react-scripts eject",
     "server": "node server/index",
     "server:dev": "nodemon --watch server server/index",
+    "server:test": "jest \"server/.*\\.test\\.js\"",
     "auto-submit": "node server/submit-funding-offer",
     "sync-earning": "node server/sync-funding-earning"
   },
@@ -47,6 +48,7 @@
     ]
   },
   "devDependencies": {
+    "jest": "^25.1.0",
     "nodemon": "^2.0.2"
   }
 }

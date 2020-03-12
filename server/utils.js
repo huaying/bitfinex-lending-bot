@@ -16,8 +16,28 @@ function readableLend(lend) {
   }
 }
 
+function getPeriod(rate) {
+  // TODO: dynamically decide the mapping
+  const mapping = [
+    [.3, 30],
+    [.2, 10],
+    [.15, 5],
+    [.12, 3],
+  ];
+
+  const annual_rate = rate * 365;
+  for (let [r, p] of mapping) {
+    if (annual_rate >= r) {
+      return p;
+    }
+  }
+  return 2;
+}
+
+
 module.exports = {
   toTime,
   compoundInterest,
-  readableLend
+  readableLend,
+  getPeriod
 }

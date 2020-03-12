@@ -6,7 +6,7 @@ const {
   submitFundingOffer,
   getFundingBook
 } = bitfinext;
-const { readableLend, toTime } = require('./utils');
+const { readableLend, toTime, getPeriod } = require('./utils');
 
 async function getRate() {
   const EXPECTED_AMOUNT = 50000;
@@ -27,24 +27,6 @@ async function getRate() {
     idx === offers.length ? offers[idx - 1][0] : offers[idx][0] - RATE_OFFSET;
 
   return rate;
-}
-
-function getPeriod(rate) {
-  // TODO: dynamically decide the mapping
-  const mapping = [
-    [.3, 30],
-    [.2, 10],
-    [.15, 5],
-    [.12, 3],
-  ];
-
-  const annual_rate = rate * 365;
-  for (let [r, p] of mapping) {
-    if (annual_rate >= r) {
-      return p;
-    }
-  }
-  return 2;
 }
 
 async function getFundingOffers(balance, lending, rate) {
