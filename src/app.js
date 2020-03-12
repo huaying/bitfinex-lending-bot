@@ -154,10 +154,10 @@ function App() {
           }}
           activeKey={activeKey}
         >
-          <Tab title="每日收益"><Earning earnings={earnings} /></Tab>
           <Tab title="已借出">
             <Lending lending={lending} />
           </Tab>
+          <Tab title="每日收益"><Earning earnings={earnings} /></Tab>
         </Tabs>
       </div>
     </div>
