@@ -27,7 +27,7 @@ function getPeriod(rate) {
     [.12, 3],
   ];
 
-  const annual_rate = rate * 365;
+  const annual_rate = compoundInterest(rate);
   for (let [r, p] of mapping) {
     if (annual_rate >= r) {
       return p;
