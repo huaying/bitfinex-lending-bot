@@ -29,6 +29,24 @@ async function getRate() {
   return rate;
 }
 
+function getPeriod(rate) {
+  // TODO: dynamically decide the mapping
+  const mapping = [
+    [.3, 30],
+    [.2, 10],
+    [.15, 5],
+    [.12, 3],
+  ];
+
+  const annual_rate = rate * 365;
+  for (let [r, p] of mapping) {
+    if (annual_rate >= r) {
+      return p;
+    }
+  }
+  return 2;
+}
+
 async function getFundingOffers(balance, lending, rate) {
   const MIN_TO_LEND = 50;
   const NUM_ALL_IN = 1100;
@@ -47,9 +65,11 @@ async function getFundingOffers(balance, lending, rate) {
     amounts.push(remain);
   }
 
+  const period = getPeriod(rate);
   return amounts.map(amount => ({
     rate,
-    amount
+    amount,
+    period
   }));
 }
 
