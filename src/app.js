@@ -10,6 +10,10 @@ moment.locale("zh-tw");
 
 const API_URL = process.env.REACT_APP_API_URL || "http://localhost:3001";
 
+function toPercentage(num) {
+  return `${(num * 100).toFixed(2)}%`;
+}
+
 function StatusPanel({ title, value }) {
   const [css, theme] = useStyletron();
   return (
@@ -42,7 +46,7 @@ function Balance({ balance, lending, earnings, rate }) {
       <StatusPanel title={'總共'} value={`${balance.toFixed(4)}`} />
       <StatusPanel title={'可用'} value={`${remain.toFixed(4)}`} />
       <StatusPanel title={'30天收益'} value={`${earning30.toFixed(4)}`} />
-      <StatusPanel title={'現在利率'} value={rate} />
+      <StatusPanel title={'當前年利率'} value={toPercentage(rate)} />
     </div>
   );
 }
@@ -61,7 +65,7 @@ function Lending({ lending }) {
         data={lending.map(l => [
           `$${l.amount.toFixed(2)}`,
           l.period,
-          `${(l.rate * 100).toFixed(2)}%`,
+          toPercentage(l.rate),
           moment(l.exp).fromNow()
         ])}
       />

@@ -20,7 +20,7 @@ app.get("/api/data", async (req, res) => {
     exp: l.time + l.period * 86400000
   }));
 
-  const rate = await getRate();
+  const rate = compoundInterest(await getRate()).toFixed(4);
 
   // take only recently 30 days
   let earnings = [];
