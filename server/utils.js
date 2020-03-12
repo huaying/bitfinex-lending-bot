@@ -57,11 +57,18 @@ async function getRate() {
   return rate;
 }
 
+async function getLowRate() {
+  const offers = (await getFundingBook()).offer;
+
+  return offers[0][0];
+}
+
 
 module.exports = {
   toTime,
   compoundInterest,
   readableLend,
   getPeriod,
-  getRate
+  getRate,
+  getLowRate
 }
