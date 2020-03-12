@@ -1,7 +1,6 @@
 import React from "react";
 import { useStyletron } from "baseui";
 import { Table } from "baseui/table";
-import { Heading, HeadingLevel } from "baseui/heading";
 import { Spinner } from "baseui/spinner";
 import { Tabs, Tab } from "baseui/tabs";
 import moment from "moment";
@@ -11,8 +10,24 @@ moment.locale("zh-tw");
 
 const API_URL = process.env.REACT_APP_API_URL || "http://localhost:3001";
 
-function Balance({ balance, lending, earnings }) {
+function StatusPanel({ title, value }) {
   const [css, theme] = useStyletron();
+  return (
+    <div className={css({ display: 'flex', flexDirection: 'column', marginBottom: '15px' })}>
+      <span
+        className={css({ fontSize: "20px", fontWeight: 300, color: theme.colors.primary200 })}
+      >
+        {title}
+      </span>
+      <span className={css({ fontSize: "40px", fontWeight: 200, color: theme.colors.primary400 })}>
+        {value}
+      </span>
+    </div>
+  );
+}
+
+function Balance({ balance, lending, earnings }) {
+  const [css] = useStyletron();
 
   if (balance === null || lending.length === 0) {
     return null;
@@ -23,42 +38,11 @@ function Balance({ balance, lending, earnings }) {
   const earning30 = earnings.reduce((total, c) => total + c.amount, 0);
 
   return (
-    <HeadingLevel>
-      <Heading styleLevel={5}>資金總覽</Heading>
-      <div className={css({ height: "30px", fontSize: "20px" })}>
-        <span
-          className={css({ fontWeight: 400, color: theme.colors.primary500 })}
-        >
-          總共
-        </span>
-        &nbsp;
-        <span className={css({ color: theme.colors.primary700 })}>
-          ${balance.toFixed(4)}
-        </span>
-      </div>
-      <div className={css({ height: "30px", fontSize: "20px" })}>
-        <span
-          className={css({ fontWeight: 400, color: theme.colors.primary500 })}
-        >
-          可用
-        </span>
-        &nbsp;
-        <span className={css({ color: theme.colors.primary700 })}>
-          ${remain.toFixed(4)}
-        </span>
-      </div>
-      <div className={css({ height: "30px", fontSize: "20px" })}>
-        <span
-          className={css({ fontWeight: 400, color: theme.colors.primary500 })}
-        >
-          30天收益
-        </span>
-        &nbsp;
-        <span className={css({ color: theme.colors.primary700 })}>
-          ${earning30.toFixed(4)}
-        </span>
-      </div>
-    </HeadingLevel>
+    <div className={css({ display: 'flex', justifyContent: 'space-between', flexDirection: 'column' })}>
+      <StatusPanel title={'總共'} value={`${balance.toFixed(4)}`} />
+      <StatusPanel title={'可用'} value={`${remain.toFixed(4)}`} />
+      <StatusPanel title={'30天收益'} value={`${earning30.toFixed(4)}`} />
+    </div>
   );
 }
 
