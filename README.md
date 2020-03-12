@@ -1,4 +1,5 @@
 # Bitfinex Lending Bot
+The project is written in React (create-react-app) and nodejs (expressjs).
 
 ## Prerequisite
 yarn, docker, docker-compose
@@ -14,23 +15,31 @@ TZ=Asia/Taipei
 
 - Run `yarn` to install required packages
 
-## Run the script to submit offer automatically
-`yarn auto-submit`
+## Run the bot
+If you just want to start the bot and automatically lend your money out, you only need to start the backend service.
+It will check your remaining/submit funding offers every <b>5</b> minutes.
 
-## Run the script to sync your recent earning history to db
-`yarn sync-earning`
+```
+docker-compose up 
+```
 
-## Run the web app
-### Run it locally:
+## Run the auto submit once
+Although the bot check and submit offers regularly, you can run the script directly.
 
-api: `docker-compose up`
+```
+yarn auto-submit
+```
 
-ui: `yarn start`
+## Start the ui
+
+```
+yarn start
+```
 
 ### Deploy to your own server:
 
-api: `docker-compose up -d` and use proxy server such as nginx
+api: `docker-compose up -d` and serve it in a proxy server such as nginx
 
-ui:  `REACT_APP_API_URL='https://yourserverurl.com' yarn build`
+ui:  `REACT_APP_API_URL='https://yourserverurl.com' yarn build` 
 
 
