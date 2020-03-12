@@ -1,4 +1,4 @@
-# bitfinex-lending-bot
+# Bitfinex Lending Bot
 
 ## Prerequisite
 yarn, docker, docker-compose
