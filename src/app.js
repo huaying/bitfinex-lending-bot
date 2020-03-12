@@ -26,7 +26,7 @@ function StatusPanel({ title, value }) {
   );
 }
 
-function Balance({ balance, lending, earnings }) {
+function Balance({ balance, lending, earnings, rate }) {
   const [css] = useStyletron();
 
   if (balance === null || lending.length === 0) {
@@ -42,6 +42,7 @@ function Balance({ balance, lending, earnings }) {
       <StatusPanel title={'總共'} value={`${balance.toFixed(4)}`} />
       <StatusPanel title={'可用'} value={`${remain.toFixed(4)}`} />
       <StatusPanel title={'30天收益'} value={`${earning30.toFixed(4)}`} />
+      <StatusPanel title={'現在利率'} value={rate} />
     </div>
   );
 }
@@ -94,6 +95,7 @@ function App() {
   const [lending, setLending] = React.useState([]);
   const [earnings, setEarnings] = React.useState([]);
   const [balance, setBalance] = React.useState(null);
+  const [rate, setRate] = React.useState(null);
   const [activeKey, setActiveKey] = React.useState("0");
 
   React.useEffect(() => {
@@ -102,6 +104,7 @@ function App() {
       setLending(res.lending);
       setBalance(res.balance);
       setEarnings(res.earnings);
+      setRate(res.rate)
     }
     fetchData();
   }, []);
@@ -126,7 +129,7 @@ function App() {
         maxWidth: "920px"
       })}
     >
-      <Balance balance={balance} lending={lending} earnings={earnings} />
+      <Balance balance={balance} lending={lending} earnings={earnings} rate={rate} />
       <div
         className={css({
           marginTop: "20px"

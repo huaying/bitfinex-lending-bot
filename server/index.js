@@ -2,7 +2,7 @@ const express = require("express");
 const cors = require("cors");
 
 const bitfinext = require("./bitfinex");
-const { compoundInterest } = require("./utils");
+const { compoundInterest, getRate } = require("./utils");
 const scheduler = require('./scheduler');
 const db = require('./db');
 
@@ -20,6 +20,8 @@ app.get("/api/data", async (req, res) => {
     exp: l.time + l.period * 86400000
   }));
 
+  const rate = await getRate();
+
   // take only recently 30 days
   let earnings = [];
   await db.read();
@@ -27,7 +29,7 @@ app.get("/api/data", async (req, res) => {
     earnings = db.get('earnings').takeRight(30).value().reverse();
   }
 
-  return res.status(200).json({ balance, lending, earnings });
+  return res.status(200).json({ balance, lending, earnings, rate });
 });
 
 app.listen(port, () => {

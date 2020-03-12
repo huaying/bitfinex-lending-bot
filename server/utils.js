@@ -1,3 +1,5 @@
+const { getFundingBook } = require("./bitfinex");;
+
 function compoundInterest(rate) {
   return Math.pow(1 + rate, 365) - 1
 }
@@ -34,10 +36,32 @@ function getPeriod(rate) {
   return 2;
 }
 
+async function getRate() {
+  const EXPECTED_AMOUNT = 50000;
+  const RATE_OFFSET = 0.00000001;
+
+  // get funding book
+  const offers = (await getFundingBook()).offer;
+
+  let total = 0;
+  let idx = 0;
+  for (; idx < offers.length; idx++) {
+    total += offers[idx][3] * offers[idx][2];
+    if (total > EXPECTED_AMOUNT) {
+      break;
+    }
+  }
+  const rate =
+    idx === offers.length ? offers[idx - 1][0] : offers[idx][0] - RATE_OFFSET;
+
+  return rate;
+}
+
 
 module.exports = {
   toTime,
   compoundInterest,
   readableLend,
-  getPeriod
+  getPeriod,
+  getRate
 }
