@@ -17,13 +17,29 @@ function toPercentage(num) {
 function StatusPanel({ title, value }) {
   const [css, theme] = useStyletron();
   return (
-    <div className={css({ display: 'flex', flexDirection: 'column', marginBottom: '15px' })}>
+    <div
+      className={css({
+        display: "flex",
+        flexDirection: "column",
+        marginBottom: "15px"
+      })}
+    >
       <span
-        className={css({ fontSize: "20px", fontWeight: 300, color: theme.colors.primary200 })}
+        className={css({
+          fontSize: "20px",
+          fontWeight: 300,
+          color: theme.colors.primary200
+        })}
       >
         {title}
       </span>
-      <span className={css({ fontSize: "40px", fontWeight: 200, color: theme.colors.primary400 })}>
+      <span
+        className={css({
+          fontSize: "40px",
+          fontWeight: 200,
+          color: theme.colors.primary400
+        })}
+      >
         {value}
       </span>
     </div>
@@ -42,11 +58,17 @@ function Balance({ balance, lending, earnings, rate }) {
   const earning30 = earnings.reduce((total, c) => total + c.amount, 0);
 
   return (
-    <div className={css({ display: 'flex', justifyContent: 'space-between', flexDirection: 'column' })}>
-      <StatusPanel title={'總共'} value={`${balance.toFixed(4)}`} />
-      <StatusPanel title={'可用'} value={`${remain.toFixed(4)}`} />
-      <StatusPanel title={'30天收益'} value={`${earning30.toFixed(4)}`} />
-      <StatusPanel title={'當前年利率'} value={toPercentage(rate)} />
+    <div
+      className={css({
+        display: "flex",
+        justifyContent: "space-between",
+        flexDirection: "column"
+      })}
+    >
+      <StatusPanel title={"總共"} value={`${balance.toFixed(4)}`} />
+      <StatusPanel title={"可用"} value={`${remain.toFixed(4)}`} />
+      <StatusPanel title={"30天收益"} value={`${earning30.toFixed(4)}`} />
+      <StatusPanel title={"當前年利率"} value={toPercentage(rate)} />
     </div>
   );
 }
@@ -57,9 +79,7 @@ function Lending({ lending }) {
     return null;
   }
   return (
-    <div
-      className={css({ margin: "0 -20px" })}
-    >
+    <div className={css({ margin: "0 -20px" })}>
       <Table
         columns={["金額", "天數", "年化率", "期限"]}
         data={lending.map(l => [
@@ -79,15 +99,13 @@ function Earning({ earnings }) {
     return null;
   }
   return (
-    <div
-      className={css({ margin: "0 -20px" })}
-    >
+    <div className={css({ margin: "0 -20px" })}>
       <Table
         columns={["收益", "日期", "時間"]}
         data={earnings.map(l => [
           `$${l.amount.toFixed(4)}`,
-          moment(l.mts).format('L'),
-          moment(l.mts).fromNow(),
+          moment(l.mts).format("L"),
+          moment(l.mts).fromNow()
         ])}
       />
     </div>
@@ -96,34 +114,42 @@ function Earning({ earnings }) {
 
 function App() {
   const [css] = useStyletron();
-  const [lending, setLending] = React.useState([]);
-  const [earnings, setEarnings] = React.useState([]);
-  const [balance, setBalance] = React.useState(null);
-  const [rate, setRate] = React.useState(null);
+  const [currency, setCurrency] = React.useState();
+  const [data, setData] = React.useState(null);
   const [activeKey, setActiveKey] = React.useState("0");
 
   React.useEffect(() => {
     async function fetchData() {
       const res = await fetch(`${API_URL}/api/data`).then(res => res.json());
-      setLending(res.lending);
-      setBalance(res.balance);
-      setEarnings(res.earnings);
-      setRate(res.rate)
+      if (!res || res.length === 0) {
+        return;
+      }
+
+      const data = {};
+      res.forEach(ccyData => {
+        data[ccyData.ccy] = ccyData;
+      });
+      setCurrency(res[1].ccy);
+      setData(data);
     }
     fetchData();
   }, []);
 
-  if (balance === null) {
+  if (data === null) {
     return (
-      <div className={css({
-        width: '100%',
-        marginTop: '100px',
-        textAlign: 'center'
-      })}>
+      <div
+        className={css({
+          width: "100%",
+          marginTop: "100px",
+          textAlign: "center"
+        })}
+      >
         <Spinner color="black" />
       </div>
     );
   }
+
+  const { balance, lending, earnings, rate } = data[currency];
 
   return (
     <div
@@ -133,7 +159,12 @@ function App() {
         maxWidth: "920px"
       })}
     >
-      <Balance balance={balance} lending={lending} earnings={earnings} rate={rate} />
+      <Balance
+        balance={balance}
+        lending={lending}
+        earnings={earnings}
+        rate={rate}
+      />
       <div
         className={css({
           marginTop: "20px"
@@ -148,7 +179,9 @@ function App() {
           <Tab title="已借出">
             <Lending lending={lending} />
           </Tab>
-          <Tab title="每日收益"><Earning earnings={earnings} /></Tab>
+          <Tab title="每日收益">
+            <Earning earnings={earnings} />
+          </Tab>
         </Tabs>
       </div>
     </div>

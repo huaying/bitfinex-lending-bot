@@ -1,11 +1,11 @@
-const { getFundingBook } = require("./bitfinex");;
+const { getFundingBook } = require("./bitfinex");
 
 function compoundInterest(rate) {
-  return Math.pow(1 + rate, 365) - 1
+  return Math.pow(1 + rate, 365) - 1;
 }
 
 function toTime(arg) {
-  const time = (arg) ? new Date(arg) : new Date();
+  const time = arg ? new Date(arg) : new Date();
   return time.toLocaleString("en-us");
 }
 
@@ -14,17 +14,17 @@ function readableLend(lend) {
     amount: Number(lend.amount.toFixed(2)),
     period: lend.period,
     rate: Number(compoundInterest(lend.rate).toFixed(4)),
-    exp: toTime(lend.time + lend.period * 86400000),
-  }
+    exp: toTime(lend.time + lend.period * 86400000)
+  };
 }
 
 function getPeriod(rate) {
   // TODO: dynamically decide the mapping
   const mapping = [
-    [.3, 30],
-    [.2, 10],
-    [.15, 5],
-    [.12, 3],
+    [0.3, 30],
+    [0.2, 10],
+    [0.15, 5],
+    [0.12, 3]
   ];
 
   const annual_rate = compoundInterest(rate);
@@ -36,12 +36,12 @@ function getPeriod(rate) {
   return 2;
 }
 
-async function getRate() {
+async function getRate(ccy) {
   const EXPECTED_AMOUNT = 50000;
   const RATE_OFFSET = 0.00000001;
 
   // get funding book
-  const offers = (await getFundingBook()).offer;
+  const offers = (await getFundingBook(ccy)).offer;
 
   let total = 0;
   let idx = 0;
@@ -57,12 +57,11 @@ async function getRate() {
   return rate;
 }
 
-async function getLowRate() {
-  const offers = (await getFundingBook()).offer;
+async function getLowRate(ccy) {
+  const offers = (await getFundingBook(ccy)).offer;
 
   return offers[0][0];
 }
-
 
 module.exports = {
   toTime,
@@ -71,4 +70,4 @@ module.exports = {
   getPeriod,
   getRate,
   getLowRate
-}
+};
