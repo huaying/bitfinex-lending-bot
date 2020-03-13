@@ -3,9 +3,15 @@ const {
   getBalance,
   getCurrentLending,
   cancelAllFundingOffers,
-  submitFundingOffer,
+  submitFundingOffer
 } = bitfinext;
-const { readableLend, toTime, getPeriod, getRate, compoundInterest } = require('./utils');
+const {
+  readableLend,
+  toTime,
+  getPeriod,
+  getRate,
+  compoundInterest
+} = require("./utils");
 
 async function getFundingOffers(balance, lending, rate) {
   const MIN_TO_LEND = 50;
