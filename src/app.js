@@ -46,7 +46,53 @@ function StatusPanel({ title, value }) {
   );
 }
 
-function Balance({ balance, lending, earnings, rate }) {
+function CurrencyToggle({ activeCurrency, onCurrencyChange }) {
+  const [css, theme] = useStyletron();
+
+  const ccyStyle = ccy => {
+    const style = { cursor: "pointer", fontSize: "30px" };
+    if (ccy === activeCurrency) {
+      return { ...style, fontSize: "50px", color: theme.colors.primary300 };
+    }
+    return style;
+  };
+
+  return (
+    <div
+      className={css({
+        position: "absolute",
+        display: "flex",
+        alignItems: "flex-end",
+        right: 0,
+        flexDirection: "column",
+        color: theme.colors.primary600,
+        fontWeight: 200
+      })}
+    >
+      <div
+        className={css(ccyStyle("USD"))}
+        onClick={() => onCurrencyChange("USD")}
+      >
+        USD
+      </div>
+      <div
+        className={css(ccyStyle("UST"))}
+        onClick={() => onCurrencyChange("UST")}
+      >
+        USDt
+      </div>
+    </div>
+  );
+}
+
+function Status({
+  balance,
+  lending,
+  earnings,
+  rate,
+  currency,
+  onCurrencyChange
+}) {
   const [css] = useStyletron();
 
   if (balance === null || lending.length === 0) {
@@ -62,13 +108,18 @@ function Balance({ balance, lending, earnings, rate }) {
       className={css({
         display: "flex",
         justifyContent: "space-between",
-        flexDirection: "column"
+        flexDirection: "column",
+        position: "relative"
       })}
     >
       <StatusPanel title={"總共"} value={`${balance.toFixed(4)}`} />
       <StatusPanel title={"可用"} value={`${remain.toFixed(4)}`} />
       <StatusPanel title={"30天收益"} value={`${earning30.toFixed(4)}`} />
       <StatusPanel title={"當前年利率"} value={toPercentage(rate)} />
+      <CurrencyToggle
+        activeCurrency={currency}
+        onCurrencyChange={onCurrencyChange}
+      />
     </div>
   );
 }
@@ -113,7 +164,7 @@ function Earning({ earnings }) {
 }
 
 function App() {
-  const [css] = useStyletron();
+  const [css, theme] = useStyletron();
   const [currency, setCurrency] = React.useState();
   const [data, setData] = React.useState(null);
   const [activeKey, setActiveKey] = React.useState("0");
@@ -156,14 +207,17 @@ function App() {
       className={css({
         margin: "0 auto",
         padding: "20px",
-        maxWidth: "920px"
+        maxWidth: "920px",
+        color: theme.colors.primary400
       })}
     >
-      <Balance
+      <Status
         balance={balance}
         lending={lending}
         earnings={earnings}
         rate={rate}
+        currency={currency}
+        onCurrencyChange={setCurrency}
       />
       <div
         className={css({
