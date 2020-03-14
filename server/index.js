@@ -1,5 +1,6 @@
 const express = require("express");
 const cors = require("cors");
+const NodeCache = require("node-cache");
 
 const bitfinext = require("./bitfinex");
 const { compoundInterest, getLowRate } = require("./utils");
@@ -8,6 +9,7 @@ const db = require("./db");
 
 const app = express();
 const port = 3001;
+const cache = new NodeCache();
 
 app.use(cors());
 
@@ -36,10 +38,17 @@ app.get("/api/data", async (req, res) => {
     return { ccy, balance, lending, earnings, rate };
   };
 
+  let data = cache.get("data");
+  if (data) {
+    return res.status(200).json(data);
+  }
+
   const usdData = await getDataByCurrency("USD");
   const ustData = await getDataByCurrency("UST");
+  data = [usdData, ustData];
 
-  return res.status(200).json([usdData, ustData]);
+  cache.set("data", data, 10);
+  return res.status(200).json(data);
 });
 
 app.listen(port, () => {
