@@ -12,7 +12,7 @@ const port = 3001;
 app.use(cors());
 
 app.get("/api/data", async (req, res) => {
-  const ccyDataPromise = async ccy => {
+  const getDataByCurrency = async ccy => {
     const balance = await bitfinext.getBalance(ccy);
     const lending = (await bitfinext.getCurrentLending(ccy)).map(l => ({
       amount: l.amount,
@@ -33,14 +33,13 @@ app.get("/api/data", async (req, res) => {
       })
       .sort({ _id: -1 });
 
-    return Promise.resolve({ ccy, balance, lending, earnings, rate });
+    return { ccy, balance, lending, earnings, rate };
   };
 
-  const getData = async () =>
-    Promise.all(["USD", "UST"].map(ccy => ccyDataPromise(ccy)));
+  const usdData = await getDataByCurrency("USD");
+  const ustData = await getDataByCurrency("UST");
 
-  const data = await getData();
-  return res.status(200).json(data);
+  return res.status(200).json([usdData, ustData]);
 });
 
 app.listen(port, () => {
