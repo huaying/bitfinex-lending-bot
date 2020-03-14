@@ -1,6 +1,9 @@
 # Bitfinex Lending Bot
 The project is written in React (create-react-app) and nodejs (expressjs).
 
+<img width="1029" alt="Screen Shot 2020-03-14 at 8 51 21 PM" src="https://user-images.githubusercontent.com/3991678/76682282-affb4000-6635-11ea-9f79-f485e31e69e2.png">
+
+
 ## Prerequisite
 yarn, docker, docker-compose
 
