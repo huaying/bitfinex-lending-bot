@@ -129,7 +129,7 @@ function App() {
       res.forEach(ccyData => {
         data[ccyData.ccy] = ccyData;
       });
-      setCurrency(res[1].ccy);
+      setCurrency(res[0].ccy);
       setData(data);
     }
     fetchData();

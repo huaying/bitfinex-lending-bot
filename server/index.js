@@ -24,15 +24,14 @@ app.get("/api/data", async (req, res) => {
     const rate = compoundInterest(await getLowRate(ccy)).toFixed(4);
 
     // take only recently 30 days
-    let earnings = [];
-    await db.read();
-    if (db.has("earnings").value()) {
-      earnings = db
-        .get("earnings")
-        .takeRight(30)
-        .value()
-        .reverse();
-    }
+    const day30diff = 30 * 24 * 3600 * 1000;
+    const day30ago = Date.now() - day30diff;
+    const earnings = await db.earnings
+      .find({
+        mts: { $gt: day30ago },
+        currency: ccy
+      })
+      .sort({ _id: -1 });
 
     return Promise.resolve({ ccy, balance, lending, earnings, rate });
   };

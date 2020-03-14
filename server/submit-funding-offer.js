@@ -64,6 +64,10 @@ function printStatus(balance, lending, offers) {
   }
 }
 
+/*
+  The bot currently only monitors and auto submit offers for USD.
+  You need to operate USDt maually.
+*/
 async function main(showDetail = false) {
   await cancelAllFundingOffers();
 

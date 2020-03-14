@@ -58,18 +58,19 @@ async function getFundingBook(ccy = DEFAULT_CCY) {
   };
 }
 
-async function getFundingEarning(ccy = DEFAULT_CCY) {
+async function getFundingEarning(ccy = null) {
   const ONE_DAY_IN_MS = 86400000;
   const now = Date.now();
-  const res = await client.ledgers(
-    { ccy, category: 28 },
-    now - ONE_DAY_IN_MS * 30,
-    now,
-    500
-  );
+  const options = { category: 28 };
+  if (ccy) {
+    options.ccy = ccy;
+  }
+  const res = await client.ledgers(options, now - ONE_DAY_IN_MS * 30, now, 500);
+
   const earnings = res
     .map(r => ({
       id: r.id,
+      currency: r.currency,
       amount: r.amount,
       balance: r.balance,
       mts: r.mts

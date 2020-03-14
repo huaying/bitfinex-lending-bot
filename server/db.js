@@ -1,6 +1,6 @@
-const low = require('lowdb');
-const FileSync = require('lowdb/adapters/FileSync');
+const Datastore = require("nedb-promises");
+const db = {};
 
-const adapter = new FileSync('db.json');
+db.earnings = Datastore.create("db/earning.db");
 
-module.exports = low(adapter);
+module.exports = db;
