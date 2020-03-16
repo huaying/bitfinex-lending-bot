@@ -6,9 +6,10 @@ const { toTime } = require("./utils");
 module.exports = () => {
   console.log("start scheduler");
 
-  schedule.scheduleJob("*/5 * * * *", function() {
+  schedule.scheduleJob("*/1 * * * *", async function() {
     console.log(`${toTime()}: Check and submit funding offers automatically`);
-    checkAndSubmitOffer();
+    await checkAndSubmitOffer();
+    await checkAndSubmitOffer({ ccy: "UST" });
   });
 
   // TODO: the time might be set differently if you have non taipei timezone
