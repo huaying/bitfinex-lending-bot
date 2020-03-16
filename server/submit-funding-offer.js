@@ -13,7 +13,7 @@ const {
   compoundInterest
 } = require("./utils");
 
-async function getFundingOffers(balance, lending, rate) {
+async function getFundingOffers(balance, lending, rate, ccy) {
   const MIN_TO_LEND = 50;
   const NUM_ALL_IN = 1100;
   const SPLIT_UNIT = 1000;
@@ -35,7 +35,8 @@ async function getFundingOffers(balance, lending, rate) {
   return amounts.map(amount => ({
     rate,
     amount,
-    period
+    period,
+    ccy
   }));
 }
 
@@ -68,13 +69,13 @@ function printStatus(balance, lending, offers) {
   The bot currently only monitors and auto submit offers for USD.
   You need to operate USDt maually.
 */
-async function main(showDetail = false) {
-  await cancelAllFundingOffers();
+async function main({ showDetail = false, ccy = "USD" }) {
+  await cancelAllFundingOffers(ccy);
 
-  const balance = await getBalance();
-  const lending = await getCurrentLending();
-  const rate = await getRate();
-  const offers = await getFundingOffers(balance, lending, rate);
+  const balance = await getBalance(ccy);
+  const lending = await getCurrentLending(ccy);
+  const rate = await getRate(ccy);
+  const offers = await getFundingOffers(balance, lending, rate, ccy);
 
   // submit funding offer
   offers.forEach(offer => submitFundingOffer(offer));
@@ -87,5 +88,9 @@ async function main(showDetail = false) {
 module.exports = main;
 
 if (require.main === module) {
-  main(true);
+  let ccy = "USD";
+  if (process.argv.length > 2 && process.argv[2] === "ust") {
+    ccy = "UST";
+  }
+  main({ showDetail: true, ccy });
 }

@@ -33,6 +33,7 @@
     "server:dev": "nodemon --watch server server/index",
     "server:test": "jest \"server/.*\\.test\\.js\"",
     "auto-submit": "node server/submit-funding-offer",
+    "auto-submit:ust": "node server/submit-funding-offer ust",
     "sync-earning": "node server/sync-funding-earning"
   },
   "eslintConfig": {
