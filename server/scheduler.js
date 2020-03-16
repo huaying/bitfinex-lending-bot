@@ -6,7 +6,7 @@ const { toTime } = require("./utils");
 module.exports = () => {
   console.log("start scheduler");
 
-  schedule.scheduleJob("*/1 * * * *", async function() {
+  schedule.scheduleJob("*/5 * * * *", async function() {
     console.log(`${toTime()}: Check and submit funding offers automatically`);
     await checkAndSubmitOffer();
     await checkAndSubmitOffer({ ccy: "UST" });
