@@ -33,7 +33,7 @@ Although the bot check and submit offers regularly, you can run the script direc
 yarn auto-submit
 ```
 
-## Start the ui
+## Start the ui (optional)
 
 ```
 yarn start
