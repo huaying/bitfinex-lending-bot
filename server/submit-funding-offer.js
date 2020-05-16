@@ -10,7 +10,9 @@ const {
   toTime,
   getRate,
   getAvaliableBalance,
-  readableOffer
+  readableOffer,
+  sleep,
+  asyncForEach
 } = require("./utils");
 const Stratege = require("./strategy");
 
@@ -58,7 +60,10 @@ async function main({ showDetail = false, ccy = "USD" } = {}) {
   if (process.env.NODE_ENV === "development") {
     offers.forEach(offer => console.log(readableOffer(offer)));
   } else {
-    offers.forEach(offer => submitFundingOffer(offer));
+    asyncForEach(offers, async offer => {
+      await submitFundingOffer(offer);
+      await sleep(500);
+    });
   }
 
   if (showDetail) {
