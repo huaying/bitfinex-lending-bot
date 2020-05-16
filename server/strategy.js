@@ -51,6 +51,7 @@ const splitPyramidally = (avaliableBalance, baseRate, ccy) => {
 
   while (avaliableBalance > MIN_TO_LEND) {
     amount = Math.min(avaliableBalance, amountInit * Math.pow(1.2, i));
+    amount = Math.floor(amount);
     rate =
       baseRate *
       Math.pow(getDerivedRate(LOW_BOUND_RATE, UP_BOUND_RATE, baseRate), i);
