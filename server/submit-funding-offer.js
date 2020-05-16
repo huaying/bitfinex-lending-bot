@@ -15,7 +15,7 @@ const {
 const Stratege = require("./strategy");
 
 async function getFundingOffers(avaliableBalance, rate, ccy) {
-  return Stratege.splitEqually(avaliableBalance, rate, ccy);
+  return Stratege.splitPyramidally(avaliableBalance, rate, ccy);
 }
 
 function printStatus(balance, lending, offers) {
