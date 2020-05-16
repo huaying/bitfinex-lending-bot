@@ -9,13 +9,30 @@ function toTime(arg) {
   return time.toLocaleString("en-us");
 }
 
+function readableRate(rate) {
+  return Number(compoundInterest(rate).toFixed(4));
+}
+
 function readableLend(lend) {
   return {
     amount: Number(lend.amount.toFixed(2)),
     period: lend.period,
-    rate: Number(compoundInterest(lend.rate).toFixed(4)),
+    rate: readableRate(lend.rate),
     exp: toTime(lend.time + lend.period * 86400000)
   };
+}
+
+function readableOffer(offer) {
+  return {
+    amount: Number(offer.amount.toFixed(2)),
+    period: offer.period,
+    rate: readableRate(offer.rate)
+  };
+}
+
+function getAvaliableBalance(balance, lending) {
+  const lendingAmount = lending.reduce((total, c) => total + c.amount, 0);
+  return balance - lendingAmount;
 }
 
 function getPeriod(rate) {
@@ -66,7 +83,10 @@ async function getLowRate(ccy) {
 module.exports = {
   toTime,
   compoundInterest,
+  readableRate,
   readableLend,
+  readableOffer,
+  getAvaliableBalance,
   getPeriod,
   getRate,
   getLowRate

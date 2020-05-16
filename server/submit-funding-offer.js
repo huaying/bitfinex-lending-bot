@@ -8,36 +8,14 @@ const {
 const {
   readableLend,
   toTime,
-  getPeriod,
   getRate,
-  compoundInterest
+  getAvaliableBalance,
+  readableOffer
 } = require("./utils");
+const Stratege = require("./strategy");
 
-async function getFundingOffers(balance, lending, rate, ccy) {
-  const MIN_TO_LEND = 50;
-  const NUM_ALL_IN = 1100;
-  const SPLIT_UNIT = 1000;
-
-  const lendingAmount = lending.reduce((total, c) => total + c.amount, 0);
-  let remain = balance - lendingAmount;
-
-  const amounts = [];
-  while (remain > NUM_ALL_IN) {
-    amounts.push(SPLIT_UNIT);
-    remain -= SPLIT_UNIT;
-  }
-
-  if (remain <= NUM_ALL_IN && remain >= MIN_TO_LEND) {
-    amounts.push(remain);
-  }
-
-  const period = getPeriod(rate);
-  return amounts.map(amount => ({
-    rate,
-    amount,
-    period,
-    ccy
-  }));
+async function getFundingOffers(avaliableBalance, rate, ccy) {
+  return Stratege.splitEqually(avaliableBalance, rate, ccy);
 }
 
 function printStatus(balance, lending, offers) {
@@ -53,9 +31,7 @@ function printStatus(balance, lending, offers) {
 
   offers.forEach(o => {
     items.push({
-      amount: Number(o.amount.toFixed(2)),
-      period: 2,
-      rate: Number(compoundInterest(o.rate).toFixed(4)),
+      ...readableOffer(o),
       exp: null,
       executed: false
     });
@@ -74,11 +50,16 @@ async function main({ showDetail = false, ccy = "USD" } = {}) {
 
   const balance = await getBalance(ccy);
   const lending = await getCurrentLending(ccy);
+  const avaliableBalance = getAvaliableBalance(balance, lending);
   const rate = await getRate(ccy);
-  const offers = await getFundingOffers(balance, lending, rate, ccy);
+  const offers = await getFundingOffers(avaliableBalance, rate, ccy);
 
   // submit funding offer
-  offers.forEach(offer => submitFundingOffer(offer));
+  if (process.env.NODE_ENV === "development") {
+    offers.forEach(offer => console.log(readableOffer(offer)));
+  } else {
+    offers.forEach(offer => submitFundingOffer(offer));
+  }
 
   if (showDetail) {
     printStatus(balance, lending, offers);
