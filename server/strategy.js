@@ -1,9 +1,12 @@
-const { getPeriod, step } = require("./utils");
+const { getPeriod, getRate, step } = require("./utils");
+const { Strategy: config } = require("./config");
 
-const splitEqually = (avaliableBalance, rate, ccy) => {
-  const MIN_TO_LEND = 50;
-  const NUM_ALL_IN = 1100;
-  const SPLIT_UNIT = 1000;
+const splitEqually = async (avaliableBalance, ccy) => {
+  const CONFIG = config.splitEqually;
+  const MIN_TO_LEND = CONFIG.MIN_TO_LEND;
+  const NUM_ALL_IN = CONFIG.NUM_ALL_IN;
+  const SPLIT_UNIT = CONFIG.SPLIT_UNIT;
+  const rate = await getRate(ccy, CONFIG.RATE_EXPECTED_OVER_AMOUNT);
 
   const amounts = [];
   while (avaliableBalance > NUM_ALL_IN) {
@@ -29,28 +32,24 @@ function getDerivedRate(l, h, x) {
   return 1 + (1 - (x - l) / (h - l)) * 0.1;
 }
 
-const splitPyramidally = (avaliableBalance, baseRate, ccy) => {
-  const MIN_TO_LEND = 50;
-  const UP_BOUND_RATE = 0.001; // around 40% annual rate
-  const LOW_BOUND_RATE = 0.0001; // around 4% annual rate
+// default stratege
+const splitPyramidally = async (avaliableBalance, ccy) => {
+  const CONFIG = config.splitPyramidally;
+  const MIN_TO_LEND = CONFIG.MIN_TO_LEND;
+  const UP_BOUND_RATE = CONFIG.UP_BOUND_RATE;
+  const LOW_BOUND_RATE = CONFIG.LOW_BOUND_RATE;
   const offers = [];
-  let amountInit = step(
-    [
-      [0.0007, 1000],
-      [0.0006, 700],
-      [0.0005, 500],
-      [0.0004, 350],
-      [0.0003, 200],
-      [0.0002, 100]
-    ],
-    baseRate
-  );
+  const baseRate = await getRate(ccy, CONFIG.RATE_EXPECTED_OVER_AMOUNT);
+  let amountInit = step(CONFIG.AMOUNT_INIT_MAP, baseRate);
   let amount;
   let rate;
   let i = 0;
 
   while (avaliableBalance > MIN_TO_LEND) {
-    amount = Math.min(avaliableBalance, amountInit * Math.pow(1.2, i));
+    amount = Math.min(
+      avaliableBalance,
+      amountInit * Math.pow(CONFIG.AMOUNT_GROW_EXP, i)
+    );
     amount = Math.floor(amount);
     rate =
       baseRate *

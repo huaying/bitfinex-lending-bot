@@ -1,4 +1,5 @@
 const { getFundingBook } = require("./bitfinex");
+const { Rate: rateConfig, Period: periodConfig } = require("./config");
 
 function compoundInterest(rate) {
   return Math.pow(1 + rate, 365) - 1;
@@ -37,13 +38,7 @@ function getAvaliableBalance(balance, lending) {
 
 function getPeriod(rate) {
   // TODO: dynamically decide the mapping
-  const mapping = [
-    [0.3, 30],
-    [0.25, 20],
-    [0.2, 10],
-    [0.15, 5],
-    [0.12, 3]
-  ];
+  const mapping = periodConfig.PERIOD_MAP;
 
   const annual_rate = compoundInterest(rate);
   for (let [r, p] of mapping) {
@@ -54,8 +49,7 @@ function getPeriod(rate) {
   return 2;
 }
 
-async function getRate(ccy) {
-  const EXPECTED_AMOUNT = 50000;
+async function getRate(ccy, expected_over_amount = 50000) {
   const RATE_OFFSET = 0.00000001;
 
   // get funding book
@@ -65,7 +59,7 @@ async function getRate(ccy) {
   let idx = 0;
   for (; idx < offers.length; idx++) {
     total += offers[idx][3] * offers[idx][2];
-    if (total > EXPECTED_AMOUNT) {
+    if (total > expected_over_amount) {
       break;
     }
   }

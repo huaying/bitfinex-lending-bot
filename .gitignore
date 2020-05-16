@@ -23,6 +23,8 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
+server/custom-config.js
+
 db.json
 db/*
 !db/.gitkeep

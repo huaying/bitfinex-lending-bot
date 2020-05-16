@@ -2,7 +2,6 @@ const Stratege = require("./strategy");
 
 test("test strategy: split normally", async () => {
   const ccy = "USD";
-  // const rate = await getRate(ccy);
   const rate = 0.0007;
   const avaliableBalance = 1500;
   const offers = Stratege.splitEqually(avaliableBalance, rate, ccy);

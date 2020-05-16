@@ -8,7 +8,6 @@ const {
 const {
   readableLend,
   toTime,
-  getRate,
   getAvaliableBalance,
   readableOffer,
   sleep,
@@ -16,8 +15,8 @@ const {
 } = require("./utils");
 const Stratege = require("./strategy");
 
-async function getFundingOffers(avaliableBalance, rate, ccy) {
-  return Stratege.splitPyramidally(avaliableBalance, rate, ccy);
+async function getFundingOffers(avaliableBalance, ccy) {
+  return Stratege.splitPyramidally(avaliableBalance, ccy);
 }
 
 function printStatus(balance, lending, offers) {
@@ -53,8 +52,7 @@ async function main({ showDetail = false, ccy = "USD" } = {}) {
   const balance = await getBalance(ccy);
   const lending = await getCurrentLending(ccy);
   const avaliableBalance = getAvaliableBalance(balance, lending);
-  const rate = await getRate(ccy);
-  const offers = await getFundingOffers(avaliableBalance, rate, ccy);
+  const offers = await getFundingOffers(avaliableBalance, ccy);
 
   // submit funding offer
   if (process.env.NODE_ENV === "development") {
