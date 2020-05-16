@@ -16,6 +16,8 @@ API_SECRET=xxx
 TZ=Asia/Taipei
 ```
 
+- Copy `server/custom-config.example.js` to `server/custom-config.js`, we can playground with the numbers in this config.
+
 - Run `yarn` to install required packages
 
 ## Run the bot
