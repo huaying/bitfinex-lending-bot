@@ -39,6 +39,7 @@ function getPeriod(rate) {
   // TODO: dynamically decide the mapping
   const mapping = [
     [0.3, 30],
+    [0.25, 20],
     [0.2, 10],
     [0.15, 5],
     [0.12, 3]
@@ -80,6 +81,15 @@ async function getLowRate(ccy) {
   return offers[0][0];
 }
 
+function step(mapping, key) {
+  for (let [k, v] of mapping) {
+    if (key >= k) {
+      return v;
+    }
+  }
+  return mapping[mapping.length - 1][1];
+}
+
 module.exports = {
   toTime,
   compoundInterest,
@@ -89,5 +99,6 @@ module.exports = {
   getAvaliableBalance,
   getPeriod,
   getRate,
-  getLowRate
+  getLowRate,
+  step
 };
