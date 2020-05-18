@@ -16,6 +16,7 @@ app.use(cors());
 app.get("/api/data", async (req, res) => {
   const getDataByCurrency = async ccy => {
     const balance = await bitfinext.getBalance(ccy);
+    const availableBalance = await bitfinext.getAvailableBalance(ccy);
     const lending = (await bitfinext.getCurrentLending(ccy)).map(l => ({
       amount: l.amount,
       period: l.period,
@@ -35,7 +36,7 @@ app.get("/api/data", async (req, res) => {
       })
       .sort({ _id: -1 });
 
-    return { ccy, balance, lending, earnings, rate };
+    return { ccy, balance, availableBalance, lending, earnings, rate };
   };
 
   let data = cache.get("data");

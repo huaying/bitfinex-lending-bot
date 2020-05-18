@@ -87,7 +87,7 @@ function CurrencyToggle({ activeCurrency, onCurrencyChange }) {
 
 function Status({
   balance,
-  lending,
+  availableBalance,
   earnings,
   rate,
   currency,
@@ -95,11 +95,9 @@ function Status({
 }) {
   const [css] = useStyletron();
 
-  if (balance === null || lending.length === 0) {
+  if (balance === null) {
     return null;
   }
-  const lendingAmount = lending.reduce((total, c) => total + c.amount, 0);
-  let remain = balance - lendingAmount;
 
   const earning30 = earnings.reduce((total, c) => total + c.amount, 0);
 
@@ -113,7 +111,7 @@ function Status({
       })}
     >
       <StatusPanel title={"總共"} value={`${balance.toFixed(4)}`} />
-      <StatusPanel title={"可用"} value={`${remain.toFixed(4)}`} />
+      <StatusPanel title={"可用"} value={`${availableBalance.toFixed(4)}`} />
       <StatusPanel title={"30天收益"} value={`${earning30.toFixed(4)}`} />
       <StatusPanel title={"當前年利率"} value={toPercentage(rate)} />
       <CurrencyToggle
@@ -200,7 +198,7 @@ function App() {
     );
   }
 
-  const { balance, lending, earnings, rate } = data[currency];
+  const { balance, lending, availableBalance, earnings, rate } = data[currency];
 
   return (
     <div
@@ -213,7 +211,7 @@ function App() {
     >
       <Status
         balance={balance}
-        lending={lending}
+        availableBalance={availableBalance}
         earnings={earnings}
         rate={rate}
         currency={currency}
