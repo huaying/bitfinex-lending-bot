@@ -1,6 +1,7 @@
 const bitfinext = require("./bitfinex");
 const {
   getBalance,
+  getAvailableBalance,
   getCurrentLending,
   cancelAllFundingOffers,
   submitFundingOffer
@@ -8,7 +9,6 @@ const {
 const {
   readableLend,
   toTime,
-  getAvaliableBalance,
   readableOffer,
   sleep,
   asyncForEach
@@ -51,7 +51,7 @@ async function main({ showDetail = false, ccy = "USD" } = {}) {
 
   const balance = await getBalance(ccy);
   const lending = await getCurrentLending(ccy);
-  const avaliableBalance = getAvaliableBalance(balance, lending);
+  const avaliableBalance = await getAvailableBalance(ccy);
   const offers = await getFundingOffers(avaliableBalance, ccy);
 
   // submit funding offer

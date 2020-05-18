@@ -19,6 +19,11 @@ async function getBalance(ccy = DEFAULT_CCY) {
   throw Error(`Can't retrieve your funding wallet(${ccy})`);
 }
 
+async function getAvailableBalance(ccy = DEFAULT_CCY) {
+  const balance = await client.calcAvailableBalance(`f${ccy}`, 0, 0, 'FUNDING');
+  return Math.abs(balance[0]); // not sure why the value is negative
+}
+
 async function getCurrentLending(ccy = DEFAULT_CCY) {
   // get current active lending
   return client.fundingCredits(`f${ccy}`).map(c => ({
@@ -82,6 +87,7 @@ async function getFundingEarning(ccy = null) {
 module.exports = {
   client,
   getBalance,
+  getAvailableBalance,
   getCurrentLending,
   cancelAllFundingOffers,
   submitFundingOffer,

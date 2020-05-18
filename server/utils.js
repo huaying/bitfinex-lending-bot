@@ -31,11 +31,6 @@ function readableOffer(offer) {
   };
 }
 
-function getAvaliableBalance(balance, lending) {
-  const lendingAmount = lending.reduce((total, c) => total + c.amount, 0);
-  return balance - lendingAmount;
-}
-
 function getPeriod(rate) {
   // TODO: dynamically decide the mapping
   const mapping = periodConfig.PERIOD_MAP;
@@ -100,7 +95,6 @@ module.exports = {
   readableRate,
   readableLend,
   readableOffer,
-  getAvaliableBalance,
   getPeriod,
   getRate,
   getLowRate,
