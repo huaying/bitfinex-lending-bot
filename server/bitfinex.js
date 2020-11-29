@@ -16,7 +16,7 @@ async function getBalance(ccy = DEFAULT_CCY) {
   if (wallet) {
     return wallet.balance;
   }
-  throw Error(`Can't retrieve your funding wallet(${ccy})`);
+  return 0;
 }
 
 async function getAvailableBalance(ccy = DEFAULT_CCY) {
