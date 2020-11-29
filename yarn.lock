@@ -1000,6 +1000,18 @@
   resolved "https://registry.yarnpkg.com/@csstools/normalize.css/-/normalize.css-10.1.0.tgz#f0950bba18819512d42f7197e56c518aa491cf18"
   integrity sha512-ij4wRiunFfaJxjB0BdrYHIH8FxBJpOwNPhhAcunlmPdXudL1WQV1qoP9un6JsEBAgQH+7UXyyjh0g7jTxXK6tg==
 
+"@date-io/core@^2.10.6":
+  version "2.10.6"
+  resolved "https://registry.yarnpkg.com/@date-io/core/-/core-2.10.6.tgz#1a6e671b590a08af8bd0784f3a93670e5d2d5bd7"
+  integrity sha512-MGYt4GEB/4ZMdSbj6FS7/gPBvuhHUwnn5O6t8PlkSqGF1310qxypVyK4CZg5RQgev25L3R5eLVdNTyYrJOL8Rw==
+
+"@date-io/date-fns@^2.6.2":
+  version "2.10.6"
+  resolved "https://registry.yarnpkg.com/@date-io/date-fns/-/date-fns-2.10.6.tgz#d0afee6452d80112017f42af4912ba22d95b11b6"
+  integrity sha512-jUiIbs4VCmACy2Ml2xu3tqf0AUSZu4qQ3cRz8SoG4YPzeg1fqII8y/gTa7GJkXiH0bUKUWaf/G2dfJa9tUnmJA==
+  dependencies:
+    "@date-io/core" "^2.10.6"
+
 "@hapi/address@2.x.x":
   version "2.1.4"
   resolved "https://registry.yarnpkg.com/@hapi/address/-/address-2.1.4.tgz#5d67ed43f3fd41a69d4b9ff7b56e7c0d1d0a81e5"
@@ -2745,16 +2757,18 @@ base@^0.11.1:
     mixin-deep "^1.2.0"
     pascalcase "^0.1.1"
 
-baseui@^9.56.0:
-  version "9.63.0"
-  resolved "https://registry.yarnpkg.com/baseui/-/baseui-9.63.0.tgz#0d62e7da48dc03cabf32f1dc76ba464579429b2b"
-  integrity sha512-z6GWS767RunSCSonT0z5eGT++3ehYDCOuD6wLL8pJrhP8GWFzkVtbmCJbi24YlZ/8TvpHKP22CAM7UBlmH20uQ==
+baseui@^9.105.0:
+  version "9.105.0"
+  resolved "https://registry.yarnpkg.com/baseui/-/baseui-9.105.0.tgz#a0cb30616f91e64742401660f621dbca117b6acf"
+  integrity sha512-V0+LtKO4I4nAn4nwOCTXfMtEZAuoGSRzzAXbMeSoQxGL16iRkxjfFWgQ9iZXpjFYJ1Zwn8BlCSDmTFlv4AUEbQ==
   dependencies:
+    "@date-io/date-fns" "^2.6.2"
     card-validator "^6.2.0"
     date-fns "^2.6.0"
     glob "^7.1.6"
     just-extend "^4.0.2"
     memoize-one "^5.1.1"
+    next-transpile-modules "^3.3.0"
     polished "^3.2.0"
     popper.js "^1.16.0"
     react-dropzone "^9.0.0"
@@ -2763,10 +2777,12 @@ baseui@^9.56.0:
     react-is "^16.8.6"
     react-movable "^2.4.0"
     react-multi-ref "^1.0.0"
-    react-range "^1.5.1"
+    react-range "^1.8.0"
+    react-uid "^2.3.0"
     react-virtualized "^9.21.1"
     react-virtualized-auto-sizer "^1.0.2"
     react-window "^1.8.5"
+    resize-observer-polyfill "^1.5.1"
     timezone-support "^2.0.2"
 
 batch@0.6.1:
@@ -2964,7 +2980,7 @@ braces@^2.3.1, braces@^2.3.2:
     split-string "^3.0.2"
     to-regex "^3.0.1"
 
-braces@~3.0.2:
+braces@^3.0.1, braces@~3.0.2:
   version "3.0.2"
   resolved "https://registry.yarnpkg.com/braces/-/braces-3.0.2.tgz#3454e1a462ee8d599e236df336cd9ea4f8afe107"
   integrity sha512-b8um+L1RzM3WDSzvhm6gIz1yfTbBt6YTlcEKAvsmqCZZFw46z626lVj9j1yEPW33H5H+lBQpZMP1k8l+78Ha0A==
@@ -7730,6 +7746,14 @@ micromatch@^3.1.10, micromatch@^3.1.4:
     snapdragon "^0.8.1"
     to-regex "^3.0.2"
 
+micromatch@^4.0.2:
+  version "4.0.2"
+  resolved "https://registry.yarnpkg.com/micromatch/-/micromatch-4.0.2.tgz#4fcb0999bf9fbc2fcbdd212f6d629b9a56c39259"
+  integrity sha512-y7FpHSbMUMoyPbYUSzO6PaZ6FyRnQOpHuKwbo1G+Knck95XVU4QAiKdGEnj5wwoS7PlOgthX/09u5iFJ+aYf5Q==
+  dependencies:
+    braces "^3.0.1"
+    picomatch "^2.0.5"
+
 miller-rabin@^4.0.0:
   version "4.0.1"
   resolved "https://registry.yarnpkg.com/miller-rabin/-/miller-rabin-4.0.1.tgz#f080351c865b0dc562a8462966daa53543c78a4d"
@@ -7990,6 +8014,14 @@ next-tick@~1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/next-tick/-/next-tick-1.0.0.tgz#ca86d1fe8828169b0120208e3dc8424b9db8342c"
   integrity sha1-yobR/ogoFpsBICCOPchCS524NCw=
+
+next-transpile-modules@^3.3.0:
+  version "3.3.0"
+  resolved "https://registry.yarnpkg.com/next-transpile-modules/-/next-transpile-modules-3.3.0.tgz#90f197d1ceda2a2ce7a4f423b262320354456abf"
+  integrity sha512-QIaBunwtC9oNaluQvfJw5hv1uXSAlTzDCc7/FUxZw5Rnm0yo1HJjW6YodFvA+7Xm9k/2fZV2itF99vMBwTOUjQ==
+  dependencies:
+    micromatch "^4.0.2"
+    slash "^3.0.0"
 
 nice-try@^1.0.4:
   version "1.0.5"
@@ -8680,6 +8712,11 @@ picomatch@^2.0.4, picomatch@^2.0.7:
   version "2.2.1"
   resolved "https://registry.yarnpkg.com/picomatch/-/picomatch-2.2.1.tgz#21bac888b6ed8601f831ce7816e335bc779f0a4a"
   integrity sha512-ISBaA8xQNmwELC7eOjqFKMESB2VIqt4PPDD0nsS95b/9dZXvVKOlz9keMSnoGGKcOHXfTvDD6WMaRoSc9UuhRA==
+
+picomatch@^2.0.5:
+  version "2.2.2"
+  resolved "https://registry.yarnpkg.com/picomatch/-/picomatch-2.2.2.tgz#21f333e9b6b8eaff02468f5146ea406d345f4dad"
+  integrity sha512-q0M/9eZHzmr0AulXyPwNfZjtwZ/RBZlbN3K3CErVrk50T2ASYI7Bye0EvekFY3IP1Nt2DHu0re+V2ZHIpMkuWg==
 
 pify@^2.0.0:
   version "2.3.0"
@@ -9840,10 +9877,10 @@ react-multi-ref@^1.0.0:
   dependencies:
     "@babel/runtime" "^7.1.2"
 
-react-range@^1.5.1:
-  version "1.5.3"
-  resolved "https://registry.yarnpkg.com/react-range/-/react-range-1.5.3.tgz#8f50fb810771bbeb39051148f29979ef463d3941"
-  integrity sha512-+nTMlbFCb2D5ql3PKCALJG6kiUkP8U36nCpO0Vk9OSeYCHBKAgvxmumyEEANhUW5HT5A3zJUkF063XdQueJkfQ==
+react-range@^1.8.0:
+  version "1.8.3"
+  resolved "https://registry.yarnpkg.com/react-range/-/react-range-1.8.3.tgz#166303250111919e728db70e572dc09994888aba"
+  integrity sha512-CVSpl/y/PFHqxwktWbHCRvl9Tm2bxqp997lZcqv/CgLOjMtk8mYySNkGYGysPbUEakR96ZiJBssrXxwCdePMSw==
 
 react-scripts@3.4.0:
   version "3.4.0"
@@ -9904,6 +9941,13 @@ react-scripts@3.4.0:
     workbox-webpack-plugin "4.3.1"
   optionalDependencies:
     fsevents "2.1.2"
+
+react-uid@^2.3.0:
+  version "2.3.1"
+  resolved "https://registry.yarnpkg.com/react-uid/-/react-uid-2.3.1.tgz#22a75d4a948a4824b9b8078cbf864d55d91ca4be"
+  integrity sha512-6C5pwNYP1udgp5feQ9MTBZBKD4su9nhD2aYCFY1bB0Bpask8wYKYz0ZhAtAJ4lcmTDC5kY1ByGTQMFDHQW6p0w==
+  dependencies:
+    tslib "^1.10.0"
 
 react-virtualized-auto-sizer@^1.0.2:
   version "1.0.2"
@@ -10275,6 +10319,11 @@ requires-port@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/requires-port/-/requires-port-1.0.0.tgz#925d2601d39ac485e091cf0da5c6e694dc3dcaff"
   integrity sha1-kl0mAdOaxIXgkc8NpcbmlNw9yv8=
+
+resize-observer-polyfill@^1.5.1:
+  version "1.5.1"
+  resolved "https://registry.yarnpkg.com/resize-observer-polyfill/-/resize-observer-polyfill-1.5.1.tgz#0e9020dd3d21024458d4ebd27e23e40269810464"
+  integrity sha512-LwZrotdHOo12nQuZlHEmtuXdqGoOD0OhaxopaNFxWzInpEgaLWoVuAMbTzixuosCx2nEG58ngzW3vxdWoxIgdg==
 
 resolve-cwd@^2.0.0:
   version "2.0.0"

@@ -1,165 +1,19 @@
 import React from "react";
 import { useStyletron } from "baseui";
-import { Table } from "baseui/table";
 import { Spinner } from "baseui/spinner";
 import { Tabs, Tab } from "baseui/tabs";
 import moment from "moment";
+
+import Status from './components/status';
+import Lending from './components/lending';
+import Earning from './components/earning';
+
 import "moment/locale/zh-tw";
 
 moment.locale("zh-tw");
 
 const API_URL = process.env.REACT_APP_API_URL || "http://localhost:3001";
 
-function toPercentage(num) {
-  return `${(num * 100).toFixed(2)}%`;
-}
-
-function StatusPanel({ title, value }) {
-  const [css, theme] = useStyletron();
-  return (
-    <div
-      className={css({
-        display: "flex",
-        flexDirection: "column",
-        marginBottom: "15px"
-      })}
-    >
-      <span
-        className={css({
-          fontSize: "20px",
-          fontWeight: 300,
-          color: theme.colors.primary200
-        })}
-      >
-        {title}
-      </span>
-      <span
-        className={css({
-          fontSize: "40px",
-          fontWeight: 200,
-          color: theme.colors.primary400
-        })}
-      >
-        {value}
-      </span>
-    </div>
-  );
-}
-
-function CurrencyToggle({ activeCurrency, onCurrencyChange }) {
-  const [css, theme] = useStyletron();
-
-  const ccyStyle = ccy => {
-    const style = { cursor: "pointer", fontSize: "30px" };
-    if (ccy === activeCurrency) {
-      return { ...style, fontSize: "50px", color: theme.colors.primary300 };
-    }
-    return style;
-  };
-
-  return (
-    <div
-      className={css({
-        position: "absolute",
-        display: "flex",
-        alignItems: "flex-end",
-        right: 0,
-        flexDirection: "column",
-        color: theme.colors.primary600,
-        fontWeight: 200
-      })}
-    >
-      <div
-        className={css(ccyStyle("USD"))}
-        onClick={() => onCurrencyChange("USD")}
-      >
-        USD
-      </div>
-      <div
-        className={css(ccyStyle("UST"))}
-        onClick={() => onCurrencyChange("UST")}
-      >
-        USDt
-      </div>
-    </div>
-  );
-}
-
-function Status({
-  balance,
-  availableBalance,
-  earnings,
-  rate,
-  currency,
-  onCurrencyChange
-}) {
-  const [css] = useStyletron();
-
-  if (balance === null) {
-    return null;
-  }
-
-  const earning30 = earnings.reduce((total, c) => total + c.amount, 0);
-
-  return (
-    <div
-      className={css({
-        display: "flex",
-        justifyContent: "space-between",
-        flexDirection: "column",
-        position: "relative"
-      })}
-    >
-      <StatusPanel title={"總共"} value={`${balance.toFixed(4)}`} />
-      <StatusPanel title={"可用"} value={`${availableBalance.toFixed(4)}`} />
-      <StatusPanel title={"30天收益"} value={`${earning30.toFixed(4)}`} />
-      <StatusPanel title={"當前年利率"} value={toPercentage(rate)} />
-      <CurrencyToggle
-        activeCurrency={currency}
-        onCurrencyChange={onCurrencyChange}
-      />
-    </div>
-  );
-}
-
-function Lending({ lending }) {
-  const [css] = useStyletron();
-  if (lending.length === 0) {
-    return null;
-  }
-  return (
-    <div className={css({ margin: "0 -20px" })}>
-      <Table
-        columns={["金額", "天數", "年化率", "期限"]}
-        data={lending.map(l => [
-          `$${l.amount.toFixed(2)}`,
-          l.period,
-          toPercentage(l.rate),
-          moment(l.exp).fromNow()
-        ])}
-      />
-    </div>
-  );
-}
-
-function Earning({ earnings }) {
-  const [css] = useStyletron();
-  if (earnings.length === 0) {
-    return null;
-  }
-  return (
-    <div className={css({ margin: "0 -20px" })}>
-      <Table
-        columns={["收益", "日期", "時間"]}
-        data={earnings.map(l => [
-          `$${l.amount.toFixed(4)}`,
-          moment(l.mts).format("L"),
-          moment(l.mts).fromNow()
-        ])}
-      />
-    </div>
-  );
-}
 
 function App() {
   const [css, theme] = useStyletron();
