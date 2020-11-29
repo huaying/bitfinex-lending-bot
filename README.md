@@ -22,14 +22,14 @@ TZ=Asia/Taipei
 
 ## Run the bot
 If you just want to start the bot and automatically lend your money out, you only need to start the backend service.
-It will check your remaining/submit funding offers every <b>5</b> minutes.
+It will check your remaining/submit funding offers every <b>3</b> minutes.
 
 ```
 docker-compose up 
 ```
 
 ## Run the auto submit once
-Although the bot check and submit offers regularly, you can run the script directly.
+Although the bot checks and submits offers regularly, you can run the script directly.
 
 ```
 yarn auto-submit
